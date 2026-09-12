@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1 STORE - Download MOD APK Games & Apps</title>
+    <style>
+        :root {
+            --primary: #e52d42;
+            --primary-dark: #cc2236;
+            --bg-main: #f4f5f7;
+            --bg-card: #ffffff;
+            --bg-header: #e52d42;
+            --text-main: #222222;
+            --text-muted: #777777;
+            --border-color: #e5e5e5;
+            --drawer-bg: #ffffff;
+            --overlay-bg: rgba(0,0,0,0.5);
+        }
+
+        [data-theme="dark"] {
+            --primary: #e52d42;
+            --primary-dark: #cc2236;
+            --bg-main: #141414;
+            --bg-card: #1f1f1f;
+            --bg-header: #1f1f1f;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: #2a2a2a;
+            --drawer-bg: #1a1a1a;
+            --overlay-bg: rgba(0,0,0,0.7);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-main); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+
+        header { background-color: var(--bg-header); height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .icon-btn { background: none; border: none; cursor: pointer; color: #ffffff; display: flex; align-items: center; justify-content: center; padding: 6px; }
+        .hamburger { width: 20px; height: 14px; display: flex; flex-direction: column; justify-content: space-between; }
+        .hamburger span { display: block; height: 2px; width: 100%; background: #ffffff; border-radius: 2px; }
+        .logo { background: #ffffff; color: #000000; font-weight: 800; font-size: 15px; padding: 3px 10px; letter-spacing: 0.5px; border-radius: 2px; cursor: pointer; text-decoration: none; }
+        .search-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
+
+        .search-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 54px; background: var(--bg-header); display: none; align-items: center; padding: 0 12px; gap: 10px; z-index: 101; }
+        .search-overlay.active { display: flex; }
+        .search-input { flex: 1; height: 38px; border-radius: 4px; border: none; padding: 0 12px; font-size: 14px; outline: none; }
+
+        .drawer-overlay { position: fixed; inset: 0; background: var(--overlay-bg); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+        .drawer { position: fixed; top: 0; left: -280px; width: 260px; height: 100%; background: var(--drawer-bg); z-index: 201; transition: transform 0.3s ease; display: flex; flex-direction: column; }
+        .drawer.active { transform: translateX(280px); }
+        .drawer-close { padding: 16px; font-size: 20px; border: none; background: none; color: var(--text-main); cursor: pointer; text-align: left; }
+        .drawer-nav { list-style: none; }
+        .drawer-nav li a { display: block; padding: 14px 20px; color: var(--text-main); text-decoration: none; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--border-color); }
+        .drawer-nav li a:hover, .drawer-nav li a.active { background: rgba(0,0,0,0.05); color: var(--primary); }
+
+        .theme-switcher { margin-top: auto; padding: 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-top: 1px solid var(--border-color); }
+        .theme-btn { background: var(--border-color); padding: 6px 12px; border-radius: 3px; border: none; color: var(--text-main); font-size: 12px; cursor: pointer; }
+
+        main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 16px 12px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .section-title { font-size: 18px; font-weight: 700; }
+        .btn-more { background: #e0e0e0; color: #222; text-decoration: none; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 2px; text-transform: uppercase; }
+
+        .cards-scroll-row { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .cards-scroll-row::-webkit-scrollbar { display: none; }
+        .scroll-card { flex: 0 0 84px; text-decoration: none; color: var(--text-main); cursor: pointer; }
+        .scroll-card img { width: 84px; height: 84px; border-radius: 18px; object-fit: cover; background: var(--border-color); margin-bottom: 6px; }
+        .scroll-card .title { font-size: 12px; font-weight: 600; line-height: 1.2; height: 28px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .scroll-card .sub { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+
+        .vertical-list { display: flex; flex-direction: column; gap: 12px; }
+        .list-item { background: var(--bg-card); border-radius: 6px; padding: 12px; display: flex; gap: 12px; text-decoration: none; color: var(--text-main); box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; }
+        .list-item img { width: 72px; height: 72px; border-radius: 16px; object-fit: cover; flex-shrink: 0; background: var(--border-color); }
+        .list-item-info { display: flex; flex-direction: column; justify-content: center; }
+        .list-item-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .list-item-version, .list-item-mod { font-size: 12px; color: var(--text-muted); }
+
+        .detail-view { display: none; background: var(--bg-card); border-radius: 8px; padding: 16px; }
+        .detail-header { display: flex; gap: 16px; margin-bottom: 16px; }
+        .detail-header img { width: 90px; height: 90px; border-radius: 20px; }
+        .download-btn { display: block; width: 100%; background: #28a745; color: #ffffff; text-align: center; padding: 12px; border-radius: 6px; font-weight: bold; text-decoration: none; margin-top: 16px; }
+
+        footer { background: #181818; color: #888; padding: 24px 16px; text-align: center; font-size: 12px; }
+        .footer-links { margin-top: 10px; display: flex; justify-content: center; gap: 16px; }
+        .footer-links a { color: #888; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="icon-btn" id="open-drawer" aria-label="Menu"><div class="hamburger"><span></span><span></span><span></span></div></button>
+        <a class="logo" id="logo-btn">APKVISION.ORG</a>
+        <button class="icon-btn search-icon" id="open-search" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+        <div class="search-overlay" id="search-overlay">
+            <input type="text" id="search-input" class="search-input" placeholder="Type to search games or apps...">
+            <button class="icon-btn" id="close-search">✕</button>
+        </div>
+    </header>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <aside class="drawer" id="drawer">
+        <button class="drawer-close" id="close-drawer">✕</button>
+        <ul class="drawer-nav">
+            <li><a href="#" class="nav-link active" data-route="home">Home</a></li>
+            <li><a href="#" class="nav-link" data-route="games">Games</a></li>
+            <li><a href="#" class="nav-link" data-route="apps">Apps</a></li>
+            <li><a href="#" class="nav-link" data-route="top100">TOP 100</a></li>
+        </ul>
+        <div class="theme-switcher" id="theme-switcher">
+            <span id="theme-icon">☀️</span>
+            <button class="theme-btn" id="theme-text">Dark mode</button>
+        </div>
+    </aside>
+
+    <main id="app-content"></main>
+
+    <footer>
+        <div>© 2015 - 2026 APKVISION.ORG</div>
+        <div class="footer-links">
+            <a href="#">PRIVACY POLICY</a>
+            <a href="#">DMCA</a>
+            <a href="#">CONTACT</a>
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = '/api';
+
+        const drawer = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+        document.getElementById('open-drawer').addEventListener('click', () => { drawer.classList.add('active'); drawerOverlay.classList.add('active'); });
+        document.getElementById('close-drawer').addEventListener('click', () => { drawer.classList.remove('active'); drawerOverlay.classList.remove('active'); });
+        drawerOverlay.addEventListener('click', () => { drawer.classList.remove('active'); drawerOverlay.classList.remove('active'); });
+
+        const searchOverlay = document.getElementById('search-overlay');
+        document.getElementById('open-search').addEventListener('click', () => { searchOverlay.classList.add('active'); document.getElementById('search-input').focus(); });
+        document.getElementById('close-search').addEventListener('click', () => { searchOverlay.classList.remove('active'); document.getElementById('search-input').value = ''; renderRoute('home'); });
+
+        document.getElementById('search-input').addEventListener('input', async (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if(query.length > 0) {
+                const res = await fetch(`${API_URL}/items?search=${encodeURIComponent(query)}`);
+                const result = await res.json();
+                renderSearchResults(query, result.data || []);
+            } else { renderRoute('home'); }
+        });
+
+        const themeSwitcher = document.getElementById('theme-switcher');
+        themeSwitcher.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+            document.getElementById('theme-text').innerText = currentTheme === 'dark' ? "Dark mode" : "Light mode";
+            document.getElementById('theme-icon').innerText = currentTheme === 'dark' ? "☀️" : "🌙";
+        });
+
+        const appContent = document.getElementById('app-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                drawer.classList.remove('active'); drawerOverlay.classList.remove('active');
+                renderRoute(link.getAttribute('data-route'));
+            });
+        });
+
+        document.getElementById('logo-btn').addEventListener('click', () => renderRoute('home'));
+
+        async function renderRoute(route) {
+            appContent.innerHTML = '<div style="padding:20px; text-align:center;">Loading...</div>';
+
+            try {
+                if (route === 'home') {
+                    const resGames = await fetch(`${API_URL}/items?type=game`);
+                    const gamesData = await resGames.json();
+                    const games = gamesData.data || [];
+
+                    const resApps = await fetch(`${API_URL}/items?type=app`);
+                    const appsData = await resApps.json();
+                    const apps = appsData.data || [];
+
+                    appContent.innerHTML = `
+                        <section style="margin-bottom:20px;">
+                            <div class="section-header">
+                                <h2 class="section-title">Best New Releases</h2>
+                                <a href="#" class="btn-more" onclick="triggerNav('games')">MORE BEST NEW</a>
+                            </div>
+                            <div class="cards-scroll-row">
+                                ${games.length > 0 ? games.map(game => `
+                                    <div class="scroll-card" onclick="renderDetail(${game.id})">
+                                        <img src="${game.iconUrl}" alt="${game.title}">
+                                        <div class="title">${game.title}</div>
+                                        <div class="sub">${game.version}</div>
+                                        <div class="sub">${game.modInfo}</div>
+                                    </div>
+                                `).join('') : '<div style="padding:10px; color:var(--text-muted);">No games added yet.</div>'}
+                            </div>
+                        </section>
+
+                        <section>
+                            <div class="section-header">
+                                <h2 class="section-title">Editor's Choice Apps</h2>
+                                <a href="#" class="btn-more" onclick="triggerNav('apps')">MORE APPS</a>
+                            </div>
+                            <div class="cards-scroll-row">
+                                ${apps.length > 0 ? apps.map(app => `
+                                    <div class="scroll-card" onclick="renderDetail(${app.id})">
+                                        <img src="${app.iconUrl}" alt="${app.title}">
+                                        <div class="title">${app.title}</div>
+                                        <div class="sub">${app.version}</div>
+                                        <div class="sub">${app.modInfo}</div>
+                                    </div>
+                                `).join('') : '<div style="padding:10px; color:var(--text-muted);">No apps added yet.</div>'}
+                            </div>
+                        </section>
+                    `;
+                } else {
+                    const type = route === 'apps' ? 'app' : 'game';
+                    const res = await fetch(`${API_URL}/items?type=${type}`);
+                    const result = await res.json();
+                    const items = result.data || [];
+
+                    appContent.innerHTML = `
+                        <div class="section-header">
+                            <h2 class="section-title">${route === 'apps' ? 'Applications Category' : 'Games Category'}</h2>
+                        </div>
+                        <div class="vertical-list">
+                            ${items.length > 0 ? items.map(item => `
+                                <div class="list-item" onclick="renderDetail(${item.id})">
+                                    <img src="${item.iconUrl}" alt="${item.title}">
+                                    <div class="list-item-info">
+                                        <div class="list-item-title">${item.title}</div>
+                                        <div class="list-item-version">${item.version}</div>
+                                        <div class="list-item-mod">${item.modInfo}</div>
+                                    </div>
+                                </div>
+                            `).join('') : '<div style="padding:20px;">No items found.</div>'}
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                appContent.innerHTML = `<div style="padding:20px; text-align:center; color:red;">Failed to fetch data from database.</div>`;
+            }
+        }
+
+        function renderSearchResults(query, items) {
+            appContent.innerHTML = `
+                <div class="section-header"><h2 class="section-title">Search Results for: "${query}"</h2></div>
+                <div class="vertical-list">
+                    ${items.length > 0 ? items.map(item => `
+                        <div class="list-item" onclick="renderDetail(${item.id})">
+                            <img src="${item.iconUrl}" alt="${item.title}">
+                            <div class="list-item-info">
+                                <div class="list-item-title">${item.title}</div>
+                                <div class="list-item-version">${item.version}</div>
+                                <div class="list-item-mod">${item.modInfo}</div>
+                            </div>
+                        </div>
+                    `).join('') : '<div style="padding:20px;">No results found.</div>'}
+                </div>
+            `;
+        }
+
+        async function renderDetail(id) {
+            appContent.innerHTML = '<div style="padding:20px; text-align:center;">Loading details...</div>';
+            const res = await fetch(`${API_URL}/items`);
+            const result = await res.json();
+            const item = (result.data || []).find(i => Number(i.id) === Number(id));
+
+            if (!item) {
+                appContent.innerHTML = '<div style="padding:20px; text-align:center;">Item not found.</div>';
+                return;
+            }
+
+            appContent.innerHTML = `
+                <div class="detail-view" style="display:block;">
+                    <div class="detail-header">
+                        <img src="${item.iconUrl}" alt="${item.title}">
+                        <div>
+                            <h2>${item.title}</h2>
+                            <p style="color:var(--text-muted); margin-top:4px;">Version: ${item.version}</p>
+                            <p style="color:var(--text-muted); margin-top:2px;">Status: ${item.modInfo}</p>
+                        </div>
+                    </div>
+                    <hr style="border:none; border-top:1px solid var(--border-color); margin: 12px 0;">
+                    <p>${item.description || 'Download official MOD APK. Virus-free.'}</p>
+                    <a href="${item.downloadUrl}" target="_blank" class="download-btn">DOWNLOAD APK (${item.version})</a>
+                </div>
+            `;
+        }
+
+        function triggerNav(route) {
+            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('data-route') === route));
+            renderRoute(route);
+        }
+
+        renderRoute('home');
+    </script>
+</body>
+</html>
